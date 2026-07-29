@@ -383,7 +383,7 @@ class TestTask51RetryStrategy:
         strategy = ExponentialBackoffRetry(config)
 
         waits = [strategy._calculate_wait(1) for _ in range(10)]
-        base = config.base_wait * (config.backoff_factor ** 1)
+        base = config.base_wait * (config.backoff_factor**1)
 
         # All should be between 50% and 100% of base
         for wait in waits:

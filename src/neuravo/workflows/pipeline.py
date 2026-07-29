@@ -54,9 +54,7 @@ class Workflow:
             try:
                 updates = await step.action(ctx)
             except Exception as exc:
-                raise WorkflowError(
-                    step.name, f"Step '{step.name}' failed: {exc}"
-                ) from exc
+                raise WorkflowError(step.name, f"Step '{step.name}' failed: {exc}") from exc
             if updates:
                 ctx.update(updates)
         return ctx

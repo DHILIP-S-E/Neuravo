@@ -193,9 +193,7 @@ class ChatHandler:
         """
         try:
             content_blocks = response["output"]["message"]["content"]
-            text = "".join(
-                block["text"] for block in content_blocks if "text" in block
-            )
+            text = "".join(block["text"] for block in content_blocks if "text" in block)
         except (KeyError, IndexError) as exc:
             raise BedrockError(
                 f"Unexpected Bedrock response shape: {exc}",
@@ -327,14 +325,10 @@ class BedrockProvider(BaseProvider):
                 client_kwargs["aws_session_token"] = config.session_token
 
         try:
-            self.client = await asyncio.to_thread(
-                boto3.client, "bedrock-runtime", **client_kwargs
-            )
+            self.client = await asyncio.to_thread(boto3.client, "bedrock-runtime", **client_kwargs)
             # Separate control-plane client (model listing, health checks) —
             # "bedrock-runtime" only exposes converse/converse_stream/invoke_model.
-            self._control_client = await asyncio.to_thread(
-                boto3.client, "bedrock", **client_kwargs
-            )
+            self._control_client = await asyncio.to_thread(boto3.client, "bedrock", **client_kwargs)
         except (BotoCoreError, ClientError) as exc:
             raise BedrockError(f"Failed to initialize Bedrock client: {exc}") from exc
 
@@ -435,9 +429,7 @@ class BedrockProvider(BaseProvider):
             request["system"] = system_blocks
 
         try:
-            stream_response = await asyncio.to_thread(
-                self.client.converse_stream, **request
-            )
+            stream_response = await asyncio.to_thread(self.client.converse_stream, **request)
         except (BotoCoreError, ClientError) as exc:
             raise BedrockError(f"Bedrock streaming request failed: {exc}") from exc
 

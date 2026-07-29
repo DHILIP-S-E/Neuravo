@@ -3,7 +3,6 @@
 Tests universal properties of Message serialization and deserialization.
 """
 
-
 import pytest
 from hypothesis import given
 from hypothesis import strategies as st

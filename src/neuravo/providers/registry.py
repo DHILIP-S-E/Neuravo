@@ -75,16 +75,12 @@ class ProviderRegistry:
                 ProviderRegistry.register("custom", CustomProvider)
         """
         if not issubclass(provider_class, BaseProvider):
-            raise TypeError(
-                f"{provider_class} must inherit from BaseProvider"
-            )
+            raise TypeError(f"{provider_class} must inherit from BaseProvider")
 
         name_lower = name.lower()
 
         if name_lower in cls._providers:
-            raise ProviderError(
-                f"Provider '{name_lower}' is already registered"
-            )
+            raise ProviderError(f"Provider '{name_lower}' is already registered")
 
         cls._providers[name_lower] = provider_class
 

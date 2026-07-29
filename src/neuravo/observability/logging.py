@@ -67,14 +67,9 @@ class SensitiveDataFilter(logging.Filter):
         record.msg = redact_sensitive_data(str(record.msg))
         if record.args:
             if isinstance(record.args, dict):
-                record.args = {
-                    k: redact_sensitive_data(str(v))
-                    for k, v in record.args.items()
-                }
+                record.args = {k: redact_sensitive_data(str(v)) for k, v in record.args.items()}
             elif isinstance(record.args, tuple):
-                record.args = tuple(
-                    redact_sensitive_data(str(arg)) for arg in record.args
-                )
+                record.args = tuple(redact_sensitive_data(str(arg)) for arg in record.args)
         return True
 
 

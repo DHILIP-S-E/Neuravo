@@ -91,8 +91,7 @@ async def test_stream_chat_yields_text_deltas():
     provider.client.chat.completions.create = AsyncMock(return_value=_fake_stream(chunks))
 
     collected = [
-        chunk.content
-        async for chunk in provider.stream_chat([Message(role="user", content="Hi")])
+        chunk.content async for chunk in provider.stream_chat([Message(role="user", content="Hi")])
     ]
 
     assert "".join(collected) == "Hello"

@@ -28,7 +28,9 @@ async def test_initialize_rejects_missing_region():
 async def test_chat_returns_response_from_converse():
     provider = BedrockProvider()
     await provider.initialize(
-        Config(provider="bedrock", region="us-east-1", model="anthropic.claude-3-haiku-20240307-v1:0")
+        Config(
+            provider="bedrock", region="us-east-1", model="anthropic.claude-3-haiku-20240307-v1:0"
+        )
     )
 
     stubber = Stubber(provider.client)

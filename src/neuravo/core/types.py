@@ -31,9 +31,7 @@ class TokenUsage:
         if self.prompt_tokens < 0 or self.completion_tokens < 0:
             raise ValueError("Token counts cannot be negative")
         if self.total_tokens != self.prompt_tokens + self.completion_tokens:
-            raise ValueError(
-                "Total tokens must equal prompt_tokens + completion_tokens"
-            )
+            raise ValueError("Total tokens must equal prompt_tokens + completion_tokens")
 
 
 @dataclass(frozen=True)

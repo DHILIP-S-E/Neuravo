@@ -61,9 +61,7 @@ class NeurevoError(Exception):
     def __repr__(self) -> str:
         """Return detailed error representation."""
         return (
-            f"{self.__class__.__name__}("
-            f"message={self.message!r}, "
-            f"error_code={self.error_code!r})"
+            f"{self.__class__.__name__}(message={self.message!r}, error_code={self.error_code!r})"
         )
 
 

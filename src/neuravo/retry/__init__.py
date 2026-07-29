@@ -135,7 +135,7 @@ class ExponentialBackoffRetry(RetryStrategy):
             Wait time in seconds
         """
         # Calculate exponential backoff
-        wait_time = self.config.base_wait * (self.config.backoff_factor ** attempt)
+        wait_time = self.config.base_wait * (self.config.backoff_factor**attempt)
 
         # Cap at max wait
         wait_time = min(wait_time, self.config.max_wait)

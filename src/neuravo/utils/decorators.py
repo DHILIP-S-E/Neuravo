@@ -17,6 +17,7 @@ def log_execution(func: Callable) -> Callable:
     Returns:
         Decorated function
     """
+
     @wraps(func)
     async def async_wrapper(*args, **kwargs) -> Any:
         """Async wrapper."""
@@ -42,6 +43,7 @@ def handle_errors(func: Callable) -> Callable:
     Returns:
         Decorated function
     """
+
     @wraps(func)
     async def wrapper(*args, **kwargs) -> Any:
         """Error handling wrapper."""

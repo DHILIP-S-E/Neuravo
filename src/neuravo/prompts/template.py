@@ -51,7 +51,5 @@ class PromptTemplate:
         """
         missing = [v for v in self.variables if v not in values]
         if missing:
-            raise ValidationError(
-                f"Missing values for template variable(s): {', '.join(missing)}"
-            )
+            raise ValidationError(f"Missing values for template variable(s): {', '.join(missing)}")
         return self.template.format(**values)

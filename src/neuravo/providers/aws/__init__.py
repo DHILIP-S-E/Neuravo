@@ -12,6 +12,7 @@ __all__ = [
 
 try:
     from neuravo.providers.registry import ProviderRegistry
+
     ProviderRegistry.register("bedrock", BedrockProvider)
 except Exception:
     # Silently fail if registration fails (for testing scenarios)
