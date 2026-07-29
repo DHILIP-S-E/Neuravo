@@ -10,7 +10,7 @@ Provides centralized logging setup with:
 import logging
 import re
 import sys
-from typing import Optional
+from typing import Any, Optional
 
 # Patterns for sensitive data that should be redacted
 SENSITIVE_PATTERNS = [
@@ -25,7 +25,7 @@ SENSITIVE_PATTERNS = [
 ]
 
 
-def redact_sensitive_data(text: str) -> str:
+def redact_sensitive_data(text: Any) -> str:
     """Remove sensitive data from text before logging.
 
     Replaces API keys, passwords, tokens, and other sensitive information
@@ -46,10 +46,11 @@ def redact_sensitive_data(text: str) -> str:
     if not isinstance(text, str):
         return str(text)
 
+    result: str = text
     for pattern in SENSITIVE_PATTERNS:
-        text = re.sub(pattern, "[REDACTED]", text, flags=re.IGNORECASE)
+        result = re.sub(pattern, "[REDACTED]", result, flags=re.IGNORECASE)
 
-    return text
+    return result
 
 
 class SensitiveDataFilter(logging.Filter):

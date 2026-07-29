@@ -8,9 +8,9 @@ This module provides the Config class for managing SDK settings with:
 """
 
 import os
-from typing import Optional
+from typing import Any, Dict, Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class Config(BaseModel):
@@ -42,6 +42,8 @@ class Config(BaseModel):
     Raises:
         ValueError: If configuration is invalid or missing required fields
     """
+
+    model_config = ConfigDict(frozen=True, validate_assignment=False)
 
     provider: str = Field(
         default="bedrock",
@@ -78,12 +80,6 @@ class Config(BaseModel):
         description="Enable debug logging",
     )
 
-    class Config:
-        """Pydantic configuration."""
-
-        frozen = True  # Make config immutable
-        validate_assignment = False
-
     @field_validator("provider")
     @classmethod
     def validate_provider(cls, v: str) -> str:
@@ -119,7 +115,7 @@ class Config(BaseModel):
             return os.environ.get("AWS_REGION")
         return v
 
-    def __init__(self, **data):
+    def __init__(self, **data: Any) -> None:
         """Initialize Config with validation.
 
         Args:
@@ -130,7 +126,7 @@ class Config(BaseModel):
         """
         super().__init__(**data)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict[str, Any]:
         """Convert config to dictionary.
 
         Returns:
@@ -147,7 +143,7 @@ class Config(BaseModel):
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> "Config":
+    def from_dict(cls, data: Dict[str, Any]) -> "Config":
         """Create Config from dictionary.
 
         Args:

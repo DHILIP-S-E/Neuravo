@@ -24,7 +24,7 @@ Exception Hierarchy:
     └── StreamingError (streaming operation failed)
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 
 class NeurevoError(Exception):
@@ -161,7 +161,7 @@ class MissingConfigError(ConfigError):
 
     def __init__(
         self,
-        missing_fields: list,
+        missing_fields: List[str],
         debug_details: Optional[Dict[str, Any]] = None,
     ) -> None:
         """Initialize MissingConfigError."""

@@ -4,8 +4,11 @@ Provides timeout handling for various operation types with clear
 error messages and recovery information.
 """
 
+import asyncio
 from dataclasses import dataclass
-from typing import Any, TypeVar
+from typing import Awaitable, TypeVar
+
+from neuravo.core.exceptions import TimeoutError as NeuravoTimeoutError
 
 T = TypeVar("T")
 
@@ -42,9 +45,9 @@ class TimeoutManager:
 
     async def execute_with_timeout(
         self,
-        coro,
+        coro: Awaitable[T],
         timeout_type: str = "request",
-    ) -> Any:
+    ) -> T:
         """Execute coroutine with timeout.
 
         Args:
@@ -55,9 +58,16 @@ class TimeoutManager:
             Coroutine result
 
         Raises:
-            TimeoutError: If operation times out
+            NeuravoTimeoutError: If operation times out
         """
-        pass
+        timeout = self._get_timeout(timeout_type)
+        try:
+            return await asyncio.wait_for(coro, timeout=timeout)
+        except asyncio.TimeoutError as exc:
+            raise NeuravoTimeoutError(
+                f"Operation timed out after {timeout}s ({timeout_type})",
+                timeout_seconds=timeout,
+            ) from exc
 
     def _get_timeout(self, timeout_type: str) -> float:
         """Get timeout for operation type.
@@ -68,4 +78,8 @@ class TimeoutManager:
         Returns:
             Timeout in seconds
         """
-        pass
+        return {
+            "request": self.config.request_timeout,
+            "stream": self.config.stream_timeout,
+            "connect": self.config.connect_timeout,
+        }.get(timeout_type, self.config.request_timeout)

@@ -39,8 +39,8 @@ class RetryStrategy(ABC):
     async def execute(
         self,
         func: Callable[..., Any],
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> Any:
         """Execute function with retry logic.
 
@@ -76,8 +76,8 @@ class ExponentialBackoffRetry(RetryStrategy):
     async def execute(
         self,
         func: Callable[..., Any],
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> Any:
         """Execute function with exponential backoff retry.
 
