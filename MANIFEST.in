@@ -1,0 +1,26 @@
+include README.md
+include CHANGELOG.md
+include LICENSE
+include pytest.ini
+include pyproject.toml
+include .gitignore
+
+recursive-include src *.py
+recursive-include src *.typed
+recursive-include tests *.py
+recursive-include docs *.md *.rst
+recursive-include examples *.py
+
+exclude .git
+exclude .github
+exclude .gitignore
+exclude .kiro
+exclude build
+exclude dist
+exclude *.egg-info
+exclude __pycache__
+exclude .pytest_cache
+exclude .mypy_cache
+exclude .coverage
+recursive-exclude tests __pycache__
+recursive-exclude src __pycache__

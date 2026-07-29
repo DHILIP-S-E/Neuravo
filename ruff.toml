@@ -1,0 +1,53 @@
+# Ruff configuration for Neuravo SDK
+#
+# NOTE: a standalone ruff.toml (unlike pyproject.toml) takes its settings at
+# the top level, not nested under [tool.ruff] - that wrapper made this file
+# fail to parse entirely until fixed here.
+
+line-length = 100
+target-version = "py310"
+
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    "venv",
+    ".eggs",
+    "*.egg-info",
+    ".pytest_cache",
+    ".mypy_cache",
+    "htmlcov",
+    "docs/_build",
+]
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "W",    # pycodestyle warnings
+    "C",    # mccabe
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "D",    # pydocstyle
+]
+
+ignore = [
+    "E501",  # line too long (handled by black, but here for reference)
+    "D100",  # Missing docstring in public module
+    "D104",  # Missing docstring in public package
+]
+
+[lint.isort]
+known-first-party = ["neuravo"]
+known-third-party = ["boto3", "pydantic", "pytest", "hypothesis"]
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.per-file-ignores]
+# Test docstrings are self-documenting via descriptive names/assertions;
+# pytest.raises(Exception) is intentional in a few places that only assert
+# "this is invalid", not which specific exception type is raised.
+"tests/**" = ["D102", "D103", "D107", "D205", "D415", "B017"]
